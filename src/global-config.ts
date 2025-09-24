@@ -54,9 +54,20 @@ const resolveDefaultRoute = () => {
 	const backendFallback = "/workbench"; // first menu path in backend menu DB
 	const frontendFallback = DEFAULT_PORTAL_ROUTE;
 
-	const rawDefaultRoute = env.VITE_APP_DEFAULT_ROUTE || (routerMode === "backend" ? backendFallback : frontendFallback);
 	const fallback = routerMode === "backend" ? backendFallback : frontendFallback;
-	return ensureLeadingSlash(rawDefaultRoute, fallback);
+	const rawDefaultRoute = env.VITE_APP_DEFAULT_ROUTE;
+	const normalizedRoute = removeTrailingSlash(ensureLeadingSlash(rawDefaultRoute ?? "", fallback));
+
+	if (routerMode !== "backend" && normalizedRoute === backendFallback) {
+		if (import.meta.env.DEV) {
+			console.warn(
+				`[global-config] "${normalizedRoute}" is reserved for backend routing. Falling back to "${frontendFallback}" in frontend mode.`,
+			);
+		}
+		return frontendFallback;
+	}
+
+	return normalizedRoute;
 };
 
 const resolvePublicPath = () => {

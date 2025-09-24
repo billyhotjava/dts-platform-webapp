@@ -16,8 +16,7 @@ function LoginPage() {
 	const bilingual = useBilingualText();
 
 	if (token.accessToken) {
-		const targetRoute = GLOBAL_CONFIG.routerMode === "backend" ? "/workbench" : GLOBAL_CONFIG.defaultRoute;
-		return <Navigate to={targetRoute} replace />;
+		return <Navigate to={GLOBAL_CONFIG.defaultRoute} replace />;
 	}
 
 	const brandLabel = bilingual("sys.login.brandName");

@@ -49,8 +49,14 @@ const removeTrailingSlash = (path: string) => {
 };
 
 const resolveDefaultRoute = () => {
-	const rawDefaultRoute = import.meta.env.VITE_APP_DEFAULT_ROUTE || DEFAULT_PORTAL_ROUTE;
-	return ensureLeadingSlash(rawDefaultRoute, DEFAULT_PORTAL_ROUTE);
+	const env = import.meta.env as Record<string, string | undefined>;
+	const routerMode = (env.VITE_APP_ROUTER_MODE || "frontend").trim();
+	const backendFallback = "/workbench"; // first menu path in backend menu DB
+	const frontendFallback = DEFAULT_PORTAL_ROUTE;
+
+	const rawDefaultRoute = env.VITE_APP_DEFAULT_ROUTE || (routerMode === "backend" ? backendFallback : frontendFallback);
+	const fallback = routerMode === "backend" ? backendFallback : frontendFallback;
+	return ensureLeadingSlash(rawDefaultRoute, fallback);
 };
 
 const resolvePublicPath = () => {

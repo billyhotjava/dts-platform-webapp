@@ -10,6 +10,14 @@ const ADMIN_PASSWORD = "Devops123@";
 
 const ADMIN_ACCOUNTS = [
 	{
+		id: "admin-op",
+		username: "opadmin",
+		email: "opadmin@example.com",
+		role: "AUTHADMIN" as const,
+		displayName: "运维管理员",
+		permissions: ["ops.view", "ops.manage"],
+	},
+	{
 		id: "admin-sys",
 		username: "sysadmin",
 		email: "sysadmin@example.com",
@@ -41,7 +49,19 @@ const signIn = http.post(`/api${UserApi.SignIn}`, async ({ request }) => {
 	const { username, password } = (await request.json()) as Record<string, string>;
 
 	const account = ADMIN_ACCOUNTS.find((item) => item.username === username);
-	if (!account || password !== ADMIN_PASSWORD) {
+
+	// 仅允许 opadmin 登录，系统管理员类账号禁止登录
+	if (["sysadmin", "authadmin", "auditadmin"].includes((username ?? "").toLowerCase())) {
+		return HttpResponse.json(
+			{
+				status: ResultStatus.ERROR,
+				message: "系统管理角色用户不能登录业务平台",
+			},
+			{ status: 401 },
+		);
+	}
+
+	if (!account || account.username !== "opadmin" || password !== ADMIN_PASSWORD) {
 		return HttpResponse.json(
 			{
 				status: ResultStatus.ERROR,

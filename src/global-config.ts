@@ -1,4 +1,5 @@
 import packageJson from "../package.json";
+import { DEFAULT_PORTAL_ROUTE } from "./constants/portal-navigation";
 
 /**
  * Global application configuration type definition
@@ -39,8 +40,8 @@ const ensureLeadingSlash = (path: string, fallback: string) => {
 };
 
 const resolveDefaultRoute = () => {
-	const rawDefaultRoute = import.meta.env.VITE_APP_DEFAULT_ROUTE || "/workbench";
-	return ensureLeadingSlash(rawDefaultRoute, "/workbench");
+	const rawDefaultRoute = import.meta.env.VITE_APP_DEFAULT_ROUTE || DEFAULT_PORTAL_ROUTE;
+	return ensureLeadingSlash(rawDefaultRoute, DEFAULT_PORTAL_ROUTE);
 };
 
 const resolveApiBaseUrl = () => {

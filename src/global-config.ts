@@ -39,9 +39,30 @@ const ensureLeadingSlash = (path: string, fallback: string) => {
 	return normalized.startsWith("/") ? normalized : `/${normalized}`;
 };
 
+const removeTrailingSlash = (path: string) => {
+	if (path === "/") {
+		return "/";
+	}
+
+	const trimmed = path.replace(/\/+$/, "");
+	return trimmed || "/";
+};
+
 const resolveDefaultRoute = () => {
 	const rawDefaultRoute = import.meta.env.VITE_APP_DEFAULT_ROUTE || DEFAULT_PORTAL_ROUTE;
 	return ensureLeadingSlash(rawDefaultRoute, DEFAULT_PORTAL_ROUTE);
+};
+
+const resolvePublicPath = () => {
+	const env = import.meta.env as Record<string, string | undefined>;
+	const rawPublicPath = env.VITE_PUBLIC_PATH || env.VITE_APP_PUBLIC_PATH || env.BASE_URL || "/";
+
+	if (isAbsoluteUrl(rawPublicPath)) {
+		return removeTrailingSlash(rawPublicPath);
+	}
+
+	const withLeadingSlash = ensureLeadingSlash(rawPublicPath, "/");
+	return removeTrailingSlash(withLeadingSlash);
 };
 
 const resolveApiBaseUrl = () => {
@@ -58,7 +79,7 @@ export const GLOBAL_CONFIG: GlobalConfig = {
 	appName: import.meta.env.VITE_APP_NAME || "Data Hub Admin",
 	appVersion: packageJson.version,
 	defaultRoute: resolveDefaultRoute(),
-	publicPath: import.meta.env.VITE_PUBLIC_PATH || "/",
+	publicPath: resolvePublicPath(),
 	apiBaseUrl: resolveApiBaseUrl(),
 	routerMode: import.meta.env.VITE_APP_ROUTER_MODE || "frontend",
 };

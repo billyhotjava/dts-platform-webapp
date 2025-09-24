@@ -44,8 +44,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 		try {
 			await signIn({ ...values, username: trimmedUsername });
 			// 登录成功后跳转
-			const targetRoute = GLOBAL_CONFIG.routerMode === "backend" ? "/workbench" : GLOBAL_CONFIG.defaultRoute;
-			navigate(targetRoute, { replace: true });
+			navigate(GLOBAL_CONFIG.defaultRoute, { replace: true });
 			toast.success(bilingual("sys.login.loginSuccessTitle"), {
 				closeButton: true,
 			});

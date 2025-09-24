@@ -1,44 +1,22 @@
 import type { RouteObject } from "react-router";
 import { Navigate } from "react-router";
-import { Component } from "./utils";
+import { PORTAL_NAV_SECTIONS } from "@/constants/portal-navigation";
+import FeaturePlaceholder from "@/pages/common/FeaturePlaceholder";
 
 export function getFrontendDashboardRoutes(): RouteObject[] {
-	const frontendDashboardRoutes: RouteObject[] = [
-		{ path: "workbench", element: Component("/pages/dashboard/workbench") },
-		{
-			path: "management",
-			children: [
-				{ index: true, element: <Navigate to="user" replace /> },
-				{
-					path: "user",
-					children: [
-						{ index: true, element: <Navigate to="profile" replace /> },
-						{ path: "profile", element: Component("/pages/management/user/profile") },
-						{ path: "account", element: Component("/pages/management/user/account") },
-					],
-				},
-				{
-					path: "system",
-					children: [
-						{ index: true, element: <Navigate to="user" replace /> },
-						{ path: "permission", element: Component("/pages/management/system/permission") },
-						{ path: "role", element: Component("/pages/management/system/role") },
-						{ path: "group", element: Component("/pages/management/system/group") },
-						{ path: "user", element: Component("/pages/management/system/user") },
-						{ path: "user/:id", element: Component("/pages/management/system/user/detail") },
-						{ path: "approval", element: Component("/pages/management/system/approval") },
-						{ path: "auditlog", element: Component("/pages/management/system/auditlog") },
-					],
-				},
-			],
-		},
-		{
-			path: "security",
-			children: [
-				{ index: true, element: <Navigate to="assets" replace /> },
-				{ path: "assets", element: Component("/pages/security/data-security") },
-			],
-		},
-	];
-	return frontendDashboardRoutes;
+	return PORTAL_NAV_SECTIONS.map((section) => {
+		const childRoutes = section.children.map<RouteObject>((child) => ({
+			path: child.path,
+			element: <FeaturePlaceholder titleKey={child.titleKey} descriptionKey={child.descriptionKey} />,
+		}));
+
+		if (!childRoutes.length) {
+			return { path: section.path };
+		}
+
+		return {
+			path: section.path,
+			children: [{ index: true, element: <Navigate to={section.children[0].path} replace /> }, ...childRoutes],
+		};
+	});
 }

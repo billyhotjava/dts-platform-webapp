@@ -55,10 +55,13 @@ export default function AccountDropdown() {
 					</NavLink>
 				</DropdownMenuItem>
 				<DropdownMenuItem asChild>
-					<NavLink to="/management/user/profile">{t("sys.nav.user.profile")}</NavLink>
+					<NavLink to="/settings/preferences">{t("sys.nav.portal.settingsPreferences")}</NavLink>
 				</DropdownMenuItem>
 				<DropdownMenuItem asChild>
-					<NavLink to="/management/user/account">{t("sys.nav.user.account")}</NavLink>
+					<NavLink to="/settings/notifications">{t("sys.nav.portal.settingsNotifications")}</NavLink>
+				</DropdownMenuItem>
+				<DropdownMenuItem asChild>
+					<NavLink to="/settings/gateway">{t("sys.nav.portal.settingsGateway")}</NavLink>
 				</DropdownMenuItem>
 				<DropdownMenuSeparator />
 				<DropdownMenuItem className="font-bold text-warning" onClick={logout}>

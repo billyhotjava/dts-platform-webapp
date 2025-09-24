@@ -1,76 +1,18 @@
 import { Icon } from "@/components/icon";
 import type { NavProps } from "@/components/nav";
+import { PORTAL_NAV_SECTIONS } from "@/constants/portal-navigation";
 
-const SYSADMIN_ROLES = ["ROLE_SYS_ADMIN", "SYSADMIN"];
-const AUTHADMIN_ROLES = ["ROLE_AUTH_ADMIN", "AUTHADMIN"];
-const AUDITADMIN_ROLES = ["ROLE_AUDITOR_ADMIN", "AUDITADMIN"];
-
-export const frontendNavData: NavProps["data"] = [
-	{
-		//name: "sys.nav.dashboard",
-		items: [
-			{
-				title: "sys.nav.workbench",
-				path: "/workbench",
-				icon: <Icon icon="local:ic-workbench" size="24" />,
-			},
-		],
-	},
-	{
-		//name: "sys.nav.mgmtpages",
-		items: [
-			{
-				title: "sys.nav.management",
-				path: "/management",
-				icon: <Icon icon="local:ic-management" size="24" />,
-				children: [
-					{
-						title: "sys.nav.usermgmt.system.permission",
-						path: "/management/system/permission",
-						auth: SYSADMIN_ROLES,
-					},
-					{
-						title: "sys.nav.usermgmt.system.role",
-						path: "/management/system/role",
-						auth: SYSADMIN_ROLES,
-					},
-					{
-						title: "sys.nav.usermgmt.system.group",
-						path: "/management/system/group",
-						auth: SYSADMIN_ROLES,
-					},
-					{
-						title: "sys.nav.usermgmt.system.user",
-						path: "/management/system/user",
-						auth: SYSADMIN_ROLES,
-					},
-					{
-						title: "sys.nav.usermgmt.system.approval",
-						path: "/management/system/approval",
-						auth: AUTHADMIN_ROLES,
-					},
-					{
-						title: "sys.nav.usermgmt.system.audit_log",
-						path: "/management/system/audit-log",
-						auth: AUDITADMIN_ROLES,
-					},
-				],
-			},
-		],
-	},
-	{
-		items: [
-			{
-				title: "sys.nav.dataSecurity",
-				path: "/security",
-				icon: <Icon icon="solar:shield-keyhole-bold" size="24" />,
-				children: [
-					{
-						title: "sys.nav.dataSecurityOverview",
-						path: "/security/assets",
-					},
-				],
-			},
-		],
-	},
-];
+export const frontendNavData: NavProps["data"] = PORTAL_NAV_SECTIONS.map((section) => ({
+	items: [
+		{
+			title: section.titleKey,
+			path: `/${section.path}`,
+			icon: <Icon icon={section.icon} size="24" />,
+			children: section.children.map((child) => ({
+				title: child.titleKey,
+				path: `/${section.path}/${child.path}`,
+				...(child.descriptionKey ? { caption: child.descriptionKey } : {}),
+			})),
+		},
+	],
+}));

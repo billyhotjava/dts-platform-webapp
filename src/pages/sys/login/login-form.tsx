@@ -25,17 +25,24 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 
 	const form = useForm<SignInReq>({
 		defaultValues: {
-			username: "",
-			password: "",
+			username: "opadmin",
+			password: "Devops123@",
 		},
 	});
 
 	if (loginState !== LoginStateEnum.LOGIN) return null;
 
 	const handleFinish = async (values: SignInReq) => {
+		const trimmedUsername = values.username?.trim() ?? "";
+		const normalizedUsername = trimmedUsername.toLowerCase();
+		if (["sysadmin", "authadmin", "oauthadmin"].includes(normalizedUsername)) {
+			toast.error("系统管理角色用户不能登录业务平台", { position: "top-center" });
+			return;
+		}
+
 		setLoading(true);
 		try {
-			await signIn(values);
+			await signIn({ ...values, username: trimmedUsername });
 			// 登录成功后跳转到默认页面
 			navigate(GLOBAL_CONFIG.defaultRoute, { replace: true });
 			toast.success(bilingual("sys.login.loginSuccessTitle"), {

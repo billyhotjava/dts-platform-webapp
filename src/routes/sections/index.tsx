@@ -5,6 +5,7 @@ import { adminRoutes } from "../admin-routes";
 import { mainRoutes } from "./main";
 
 export const routesSection: RouteObject[] = [
+	{ index: true, element: <Navigate to="/auth/login" replace /> },
 	// Auth
 	...authRoutes,
 	// Dashboard

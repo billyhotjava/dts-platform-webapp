@@ -7,9 +7,15 @@ import { Badge } from "@/ui/badge";
 import { Button } from "@/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/ui/card";
 import { Text } from "@/ui/typography";
+import { useBilingualText } from "@/hooks/useBilingualText";
 
 export default function ProfileTab() {
 	const { username } = useUserInfo();
+	const t = useBilingualText();
+	const tr = (key: string, fallback: string) => {
+		const val = t(key).trim();
+		return val.length > 0 ? val : fallback;
+	};
 	const AboutItems = [
 		{
 			icon: <Icon icon="fa-solid:user" size={18} />,
@@ -119,7 +125,7 @@ export default function ProfileTab() {
 			<div className="grid grid-cols-1 gap-4 md:grid-cols-3">
 				<Card className="col-span-1">
 					<CardHeader>
-						<CardTitle>About</CardTitle>
+						<CardTitle>{tr("sys.profile.about", "关于")}</CardTitle>
 						<CardDescription>{faker.lorem.paragraph()}</CardDescription>
 					</CardHeader>
 					<CardContent>
@@ -137,7 +143,7 @@ export default function ProfileTab() {
 
 				<Card className="col-span-1 md:col-span-2">
 					<CardHeader>
-						<CardTitle>Activity Timeline</CardTitle>
+						<CardTitle>{tr("sys.profile.activityTimeline", "活动时间线")}</CardTitle>
 					</CardHeader>
 					<CardContent>
 						<Timeline
@@ -215,7 +221,7 @@ export default function ProfileTab() {
 					<Card>
 						<CardHeader>
 							<CardTitle className="w-full flex items-center justify-between">
-								<span>Connections</span>
+								<span>{tr("sys.profile.connections", "连接")}</span>
 								<Button variant="ghost" size="icon">
 									<Icon icon="fontisto:more-v-a" />
 								</Button>
@@ -253,7 +259,7 @@ export default function ProfileTab() {
 					<Card>
 						<CardHeader>
 							<div className="flex items-center justify-between">
-								<CardTitle>Teams</CardTitle>
+								<CardTitle>{tr("sys.profile.teams", "团队")}</CardTitle>
 								<Button variant="ghost" size="icon">
 									<Icon icon="fontisto:more-v-a" />
 								</Button>

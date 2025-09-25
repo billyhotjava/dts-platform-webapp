@@ -4,6 +4,9 @@ import { menuList } from "./handlers/_menu";
 import { signIn, logout, userList } from "./handlers/_user";
 import { keycloakHandlers } from "./handlers/_keycloak";
 import { adminHandlers } from "./handlers/_admin";
+import { iamHandlers } from "./handlers/_iam";
+import { reportsHandlers } from "./handlers/_reports";
+import { apiHandlers } from "./handlers/_apis";
 
 const handlers = [
 	signIn,
@@ -13,6 +16,9 @@ const handlers = [
 	menuList,
 	...keycloakHandlers,
 	...adminHandlers,
+	...iamHandlers,
+	...reportsHandlers,
+	...apiHandlers,
 ];
 const worker = setupWorker(...handlers);
 

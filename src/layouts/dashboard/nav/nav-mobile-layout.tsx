@@ -19,7 +19,7 @@ export function NavMobileLayout({ data }: NavProps) {
 				<div className="flex gap-2 px-2 h-[var(--layout-header-height)] items-center">
 					<Logo />
 					<span className="inline-flex items-center gap-2 text-xl font-bold">
-						<span aria-hidden className="text-red-500">
+						<span aria-hidden className="text-red-500 text-2xl">
 							★
 						</span>
 						{GLOBAL_CONFIG.appName}

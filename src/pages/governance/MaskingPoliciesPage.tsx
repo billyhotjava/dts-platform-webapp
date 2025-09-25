@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/tabs";
 import { Textarea } from "@/ui/textarea";
+import SensitiveNotice from "@/components/security/SensitiveNotice";
 
 const MASKING_OPERATORS = [
 	{ value: "PASS", label: "展示" },
@@ -249,6 +250,7 @@ export default function MaskingPoliciesPage() {
 
 	return (
 		<div className="space-y-4">
+			<SensitiveNotice />
 			<div className="flex flex-wrap items-center gap-2 rounded-md border border-purple-200 bg-purple-50 px-4 py-3 text-sm text-purple-700">
 				<Icon icon="solar:shield-bold" size={18} />
 				治理策略落地列级/行级访问控制，可按密级、角色、组织叠加覆盖并提供模拟验证。

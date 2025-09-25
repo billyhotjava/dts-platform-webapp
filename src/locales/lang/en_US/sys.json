@@ -186,7 +186,9 @@
 				"403": "403",
 				"404": "404",
 				"500": "500",
-				"index": "Error Page"
+				"index": "Error Page",
+				"unexpected": "Unexpected Application Error!",
+				"unknown": "Unknown Error"
 			},
 			"external_link": "External Link",
 			"link": "Item External",
@@ -246,6 +248,10 @@
 				"group": "Organization",
 				"index": "System Management"
 			}
+		},
+		"error": {
+			"unexpected": "Unexpected Application Error!",
+			"unknown": "Unknown Error"
 		},
 		"workbench": {
 			"title": "Cluster Overview",
@@ -382,7 +388,11 @@
 		},
 		"profile": {
 			"title": "Job Title",
-			"department": "Department"
+			"department": "Department",
+			"about": "About",
+			"activityTimeline": "Activity Timeline",
+			"connections": "Connections",
+			"teams": "Teams"
 		},
 		"settings": {
 			"accordion": "Accordion Menu",

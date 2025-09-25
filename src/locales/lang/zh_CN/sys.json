@@ -248,12 +248,18 @@
 				"index": "异常页",
 				"403": "403",
 				"404": "404",
-				"500": "500"
+				"500": "500",
+				"unexpected": "应用发生未预期错误",
+				"unknown": "未知错误"
 			}
 		},
 		"portal": {
 			"placeholderBadge": "敬请期待",
 			"placeholderMessage": "该功能正在建设中，请关注后续更新。"
+		},
+		"error": {
+			"unexpected": "应用发生未预期错误",
+			"unknown": "未知错误"
 		},
 		"docs": "文档",
 		"workbench": {
@@ -395,7 +401,11 @@
 		},
 		"profile": {
 			"title": "岗位名称",
-			"department": "所属部门"
+			"department": "所属部门",
+			"about": "关于",
+			"activityTimeline": "活动时间线",
+			"connections": "连接",
+			"teams": "团队"
 		},
 		"settings": {
 			"title": "设置",

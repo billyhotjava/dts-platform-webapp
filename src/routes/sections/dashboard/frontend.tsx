@@ -9,6 +9,11 @@ import DataStandardsPage from "@/pages/modeling/DataStandardsPage";
 import QualityRulesPage from "@/pages/governance/QualityRulesPage";
 import MaskingPoliciesPage from "@/pages/governance/MaskingPoliciesPage";
 import DataProductsPage from "@/pages/services/DataProductsPage";
+import ApiServicesPage from "@/pages/services/ApiServicesPage";
+import ApiServiceDetailPage from "@/pages/services/ApiServiceDetailPage";
+import ClassificationMappingPage from "@/pages/iam/ClassificationMappingPage";
+import AuthorizationPage from "@/pages/iam/AuthorizationPage";
+import ReportsPage from "@/pages/visualization/ReportsPage";
 import FeaturePlaceholder from "@/pages/common/FeaturePlaceholder";
 
 const FEATURE_COMPONENTS: Record<string, Record<string, () => ReactElement>> = {
@@ -27,7 +32,15 @@ const FEATURE_COMPONENTS: Record<string, Record<string, () => ReactElement>> = {
 		preview: () => <DataPreviewPage />,
 	},
 	services: {
+		api: () => <ApiServicesPage />,
 		products: () => <DataProductsPage />,
+	},
+	visualization: {
+		reports: () => <ReportsPage />,
+	},
+	iam: {
+		classification: () => <ClassificationMappingPage />,
+		authorization: () => <AuthorizationPage />,
 	},
 };
 
@@ -50,9 +63,19 @@ export function getFrontendDashboardRoutes(): RouteObject[] {
 			return { path: section.path };
 		}
 
+		// Extra non-menu routes
+		const extraChildren: RouteObject[] = [];
+		if (section.key === "services") {
+			extraChildren.push({ path: "apis/:id", element: <ApiServiceDetailPage /> });
+		}
+
 		return {
 			path: section.path,
-			children: [{ index: true, element: <Navigate to={section.children[0].path} replace /> }, ...childRoutes],
+			children: [
+				{ index: true, element: <Navigate to={section.children[0].path} replace /> },
+				...childRoutes,
+				...extraChildren,
+			],
 		};
 	});
 }

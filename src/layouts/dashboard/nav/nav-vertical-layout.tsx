@@ -53,7 +53,7 @@ export function NavVerticalLayout({ data, className }: Props) {
 							marginLeft: themeLayout === ThemeLayout.Mini ? 0 : "8px",
 						}}
 					>
-						<span aria-hidden className="text-red-500">
+						<span aria-hidden className="text-red-500 text-2xl">
 							★
 						</span>
 						{GLOBAL_CONFIG.appName}

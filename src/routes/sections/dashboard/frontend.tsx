@@ -7,7 +7,7 @@ export function getFrontendDashboardRoutes(): RouteObject[] {
 	return PORTAL_NAV_SECTIONS.map((section) => {
 		const childRoutes = section.children.map<RouteObject>((child) => ({
 			path: child.path,
-			element: <PortalFeaturePage sectionKey={section.key} featureKey={child.key} />,
+			element: <PortalFeaturePage sectionKey={section.key} featureKey={child.path} />,
 		}));
 
 		if (!childRoutes.length) {

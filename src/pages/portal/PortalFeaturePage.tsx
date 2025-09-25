@@ -1,18 +1,25 @@
 import { Fragment, type ReactNode } from "react";
-import { Icon } from "@/components/icon";
+
 import { PORTAL_FEATURES } from "@/_mock/portal";
+import { Icon } from "@/components/icon";
+import { Badge } from "@/ui/badge";
+import { Button } from "@/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
+import { Progress } from "@/ui/progress";
+import { Text, Title } from "@/ui/typography";
+
 import type {
 	PortalFeatureContent,
+	PortalFeatureOperation,
+	PortalFeatureTable,
+	PortalFeatureTableColumn,
+	PortalFeatureTableRow,
 	PortalMetric,
 	PortalPipeline,
 	PortalQuickWin,
 	PortalRisk,
 	PortalWorkstream,
 } from "./types";
-import { Badge } from "@/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
-import { Progress } from "@/ui/progress";
-import { Text, Title } from "@/ui/typography";
 
 interface PortalFeaturePageProps {
 	sectionKey: string;
@@ -42,7 +49,13 @@ export default function PortalFeaturePage({ sectionKey, featureKey }: PortalFeat
 		<div className="space-y-6 pb-12">
 			<HeroCard feature={feature} />
 
+			{feature.operations?.length ? (
+				<OperationsPanel title={feature.hero.title} operations={feature.operations} />
+			) : null}
+
 			{feature.metrics?.length ? <MetricsGrid metrics={feature.metrics} /> : null}
+
+			{feature.tables?.length ? feature.tables.map((table) => <FeatureTable key={table.id} table={table} />) : null}
 
 			{feature.highlights?.length ? <HighlightsCard highlights={feature.highlights} /> : null}
 
@@ -103,6 +116,34 @@ function StageBadge({ stage }: { stage: PortalFeatureContent["hero"]["stage"] })
 		运营: "default",
 	};
 	return <Badge variant={variant[stage]}>{stage}</Badge>;
+}
+
+function OperationsPanel({ title, operations }: { title: string; operations: PortalFeatureOperation[] }) {
+	return (
+		<Card>
+			<CardHeader>
+				<CardTitle>{title} 操作面板</CardTitle>
+				<Text variant="body3" className="text-muted-foreground">
+					快速发起新增、导入或批量治理动作，保持能力与流程的持续演进。
+				</Text>
+			</CardHeader>
+			<CardContent>
+				<div className="flex flex-wrap gap-3">
+					{operations.map((operation) => (
+						<Button
+							key={operation.label}
+							variant={operation.variant}
+							size={operation.size ?? "default"}
+							className="flex items-center gap-2"
+						>
+							{operation.icon ? <Icon icon={operation.icon} className="size-4" /> : null}
+							{operation.label}
+						</Button>
+					))}
+				</div>
+			</CardContent>
+		</Card>
+	);
 }
 
 function MetricsGrid({ metrics }: { metrics: PortalMetric[] }) {
@@ -175,6 +216,100 @@ function HighlightsCard({ highlights }: { highlights: NonNullable<PortalFeatureC
 			</CardContent>
 		</Card>
 	);
+}
+
+function FeatureTable({ table }: { table: PortalFeatureTable }) {
+	const hasRowActions = table.rows.some((row) => row.actions?.length);
+
+	return (
+		<Card>
+			<CardHeader className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+				<div>
+					<CardTitle>{table.title}</CardTitle>
+					{table.description ? (
+						<Text variant="body3" className="text-muted-foreground">
+							{table.description}
+						</Text>
+					) : null}
+				</div>
+				{table.actions?.length ? (
+					<div className="flex flex-wrap gap-2">
+						{table.actions.map((action) => (
+							<Button
+								key={action.label}
+								variant={action.variant}
+								size={action.size ?? "sm"}
+								className="flex items-center gap-2"
+							>
+								{action.icon ? <Icon icon={action.icon} className="size-4" /> : null}
+								{action.label}
+							</Button>
+						))}
+					</div>
+				) : null}
+			</CardHeader>
+			<CardContent className="overflow-x-auto">
+				<table className="min-w-full text-sm">
+					<thead className="border-b text-left text-muted-foreground">
+						<tr>
+							{table.columns.map((column) => (
+								<th key={column.key} className={`py-2 pr-4 font-medium ${getAlignmentClass(column.align)}`}>
+									{column.label}
+								</th>
+							))}
+							{hasRowActions ? <th className="py-2 text-right font-medium">操作</th> : null}
+						</tr>
+					</thead>
+					<tbody>
+						{table.rows.map((row) => (
+							<tr key={row.id} className="border-b last:border-none">
+								{table.columns.map((column) => (
+									<td key={`${row.id}-${column.key}`} className={`py-2 pr-4 ${getAlignmentClass(column.align)}`}>
+										{renderTableCell(column, row)}
+									</td>
+								))}
+								{hasRowActions ? (
+									<td className="py-2 text-right">
+										<div className="flex flex-wrap justify-end gap-1">
+											{row.actions?.map((action) => (
+												<Button
+													key={`${row.id}-${action.label}`}
+													variant={action.variant ?? "ghost"}
+													size="sm"
+													className={`flex items-center gap-1 ${action.tone === "danger" ? "text-destructive" : ""}`}
+												>
+													{action.icon ? <Icon icon={action.icon} className="size-3.5" /> : null}
+													{action.label}
+												</Button>
+											))}
+										</div>
+									</td>
+								) : null}
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</CardContent>
+		</Card>
+	);
+}
+
+function getAlignmentClass(align: PortalFeatureTableColumn["align"]) {
+	if (align === "center") return "text-center";
+	if (align === "right") return "text-right";
+	return "text-left";
+}
+
+function renderTableCell(column: PortalFeatureTableColumn, row: PortalFeatureTableRow) {
+	const value = row.values[column.key] ?? "--";
+	if (column.format === "badge") {
+		const variant = row.badges?.[column.key] ?? "secondary";
+		return <Badge variant={variant}>{value}</Badge>;
+	}
+	if (column.format === "number") {
+		return Number.isNaN(Number(value)) ? value : Number(value).toLocaleString();
+	}
+	return value;
 }
 
 function WorkstreamsCard({ workstreams }: { workstreams: PortalWorkstream[] }) {

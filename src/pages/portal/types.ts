@@ -1,3 +1,8 @@
+import type { ComponentProps } from "react";
+
+import type { ButtonProps } from "@/ui/button";
+import type { Badge } from "@/ui/badge";
+
 export interface PortalMetric {
 	label: string;
 	value: string;
@@ -75,6 +80,45 @@ export interface PortalFeatureHero {
 	relatedProducts?: string[];
 }
 
+export interface PortalFeatureOperation {
+	label: string;
+	icon?: string;
+	variant?: ButtonProps["variant"];
+	size?: ButtonProps["size"];
+}
+
+export type PortalTableCellFormat = "text" | "badge" | "number" | "date";
+
+export interface PortalFeatureTableColumn {
+	key: string;
+	label: string;
+	format?: PortalTableCellFormat;
+	align?: "left" | "center" | "right";
+}
+
+export interface PortalFeatureTableRowAction {
+	label: string;
+	icon?: string;
+	variant?: ButtonProps["variant"];
+	tone?: "danger" | "default";
+}
+
+export interface PortalFeatureTableRow {
+	id: string;
+	values: Record<string, string>;
+	badges?: Partial<Record<string, ComponentProps<typeof Badge>["variant"]>>;
+	actions?: PortalFeatureTableRowAction[];
+}
+
+export interface PortalFeatureTable {
+	id: string;
+	title: string;
+	description?: string;
+	columns: PortalFeatureTableColumn[];
+	rows: PortalFeatureTableRow[];
+	actions?: PortalFeatureOperation[];
+}
+
 export interface PortalFeatureContent {
 	id: string;
 	hero: PortalFeatureHero;
@@ -86,4 +130,6 @@ export interface PortalFeatureContent {
 	risks?: PortalRisk[];
 	quickWins?: PortalQuickWin[];
 	insights?: PortalInsight[];
+	operations?: PortalFeatureOperation[];
+	tables?: PortalFeatureTable[];
 }

@@ -9,9 +9,13 @@ import { Button } from "@/ui/button";
 import { Textarea } from "@/ui/textarea";
 import { Text } from "@/ui/typography";
 import { Badge } from "@/ui/badge";
+import { useSearchParams } from "react-router";
 import { toast } from "sonner";
 
 export default function ApprovalCenterView() {
+	const [params] = useSearchParams();
+	const tab = params.get("tab") ?? "pending";
+	const isRulesTab = tab === "rules";
 	const queryClient = useQueryClient();
 	const [selected, setSelected] = useState<ChangeRequest | null>(null);
 	const [reason, setReason] = useState("");
@@ -20,6 +24,7 @@ export default function ApprovalCenterView() {
 	const { data = [], isLoading } = useQuery({
 		queryKey: ["admin", "change-requests", "pending"],
 		queryFn: () => adminApi.getChangeRequests({ status: "PENDING" }),
+		enabled: !isRulesTab,
 	});
 
 	const approveMutation = useMutation({
@@ -41,6 +46,19 @@ export default function ApprovalCenterView() {
 		},
 		onError: () => toast.error("操作失败，请稍后重试"),
 	});
+
+	if (isRulesTab) {
+		return (
+			<div className="space-y-6">
+				<Card>
+					<CardHeader>
+						<CardTitle>审批规则</CardTitle>
+					</CardHeader>
+					<CardContent className="min-h-[240px]" />
+				</Card>
+			</div>
+		);
+	}
 
 	return (
 		<div className="grid gap-6 lg:grid-cols-[minmax(0,0.55fr)_minmax(0,1fr)]">
@@ -89,7 +107,8 @@ export default function ApprovalCenterView() {
 						<>
 							<div className="flex flex-wrap items-center justify-between gap-2">
 								<Text variant="body2" className="font-semibold">
-									{translateResource(selected.resourceType, selected.resourceType)} · {translateAction(selected.action, selected.action)}
+									{translateResource(selected.resourceType, selected.resourceType)} ·{" "}
+									{translateAction(selected.action, selected.action)}
 								</Text>
 								<Text variant="body3" className="text-muted-foreground">
 									提交时间：{selected.requestedAt || "--"}

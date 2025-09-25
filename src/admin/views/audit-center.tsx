@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { adminApi } from "@/admin/api/adminApi";
 import type { AuditEvent } from "@/admin/types";
@@ -24,14 +24,22 @@ interface FilterState {
 export default function AuditCenterView() {
 	const [params] = useSearchParams();
 	const tab = params.get("tab") || "audit";
-	const [filters, setFilters] = useState<FilterState>({
-		resource: tab === "login" ? "LOGIN" : undefined,
-	});
+	const isLoginTab = tab === "login";
+	const [filters, setFilters] = useState<FilterState>(() => ({
+		resource: isLoginTab ? "LOGIN" : undefined,
+	}));
+
+	useEffect(() => {
+		if (isLoginTab) {
+			setFilters({ resource: "LOGIN" });
+		}
+	}, [isLoginTab]);
 
 	const queryParams = useMemo(() => filters, [filters]);
 	const { data = [], isLoading } = useQuery({
 		queryKey: ["admin", "audit", queryParams],
 		queryFn: () => adminApi.getAuditEvents(queryParams as Record<string, string>),
+		enabled: !isLoginTab,
 	});
 
 	const handleExport = async (format: "csv" | "json") => {
@@ -54,6 +62,19 @@ export default function AuditCenterView() {
 			toast.error("导出失败，请稍后重试");
 		}
 	};
+
+	if (isLoginTab) {
+		return (
+			<div className="space-y-6">
+				<Card>
+					<CardHeader>
+						<CardTitle>登录/登出日志</CardTitle>
+					</CardHeader>
+					<CardContent className="min-h-[240px]" />
+				</Card>
+			</div>
+		);
+	}
 
 	return (
 		<div className="space-y-6">

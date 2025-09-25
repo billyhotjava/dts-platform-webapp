@@ -1,13 +1,13 @@
 import type { RouteObject } from "react-router";
 import { Navigate } from "react-router";
 import { PORTAL_NAV_SECTIONS } from "@/constants/portal-navigation";
-import FeaturePlaceholder from "@/pages/common/FeaturePlaceholder";
+import PortalFeaturePage from "@/pages/portal/PortalFeaturePage";
 
 export function getFrontendDashboardRoutes(): RouteObject[] {
 	return PORTAL_NAV_SECTIONS.map((section) => {
 		const childRoutes = section.children.map<RouteObject>((child) => ({
 			path: child.path,
-			element: <FeaturePlaceholder titleKey={child.titleKey} descriptionKey={child.descriptionKey} />,
+			element: <PortalFeaturePage sectionKey={section.key} featureKey={child.key} />,
 		}));
 
 		if (!childRoutes.length) {

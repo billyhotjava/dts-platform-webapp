@@ -8,6 +8,10 @@ import type {
 	PortalRisk,
 	PortalWorkstream,
 	PortalDataAsset,
+	PortalFeatureOperation,
+	PortalFeatureTable,
+	PortalFeatureTableRow,
+	PortalFeatureTableRowAction,
 } from "@/pages/portal/types";
 
 type PortalFeatureMap = Record<string, Record<string, PortalFeatureContent>>;
@@ -184,6 +188,104 @@ const createInsights = (topic: string): PortalInsight[] => [
 	},
 ];
 
+const RESPONSIBLE_UNITS = [
+	"企业数据治理中心",
+	"建模与标准推进办",
+	"数据服务运营部",
+	"安全策略办公室",
+	"共享支撑团队",
+	"质量保障小组",
+];
+
+const USAGE_TEMPLATES = [
+	"支撑重点项目场景落地",
+	"作为跨部门协同依据",
+	"用于审批与上线复核",
+	"沉淀最佳实践模板",
+	"驱动质量与安全巡检",
+];
+
+type BadgeVariant = "default" | "secondary" | "destructive" | "info" | "warning" | "success" | "error" | "outline";
+
+const STATUS_SEQUENCE: { label: string; variant: BadgeVariant }[] = [
+	{ label: "规划中", variant: "outline" },
+	{ label: "待审批", variant: "warning" },
+	{ label: "已发布", variant: "success" },
+	{ label: "维护中", variant: "secondary" },
+	{ label: "优化中", variant: "info" },
+];
+
+const UPDATE_DATES = ["2024-06-30", "2024-06-27", "2024-06-25", "2024-06-22", "2024-06-19"];
+
+const defaultRowActions: PortalFeatureTableRowAction[] = [
+	{ label: "查看详情", icon: "solar:eye-bold-duotone" },
+	{ label: "编辑", icon: "solar:pen-bold" },
+	{ label: "删除", icon: "solar:trash-bin-trash-bold-duotone", tone: "danger" },
+];
+
+const createFeatureOperations = (definition: FeatureDefinition): PortalFeatureOperation[] => [
+	{
+		label: `新增${definition.topic}`,
+		icon: "solar:add-circle-bold-duotone",
+	},
+	{
+		label: "导入模板",
+		icon: "solar:import-bold-duotone",
+		variant: "secondary",
+	},
+	{
+		label: "导出清单",
+		icon: "solar:export-bold-duotone",
+		variant: "outline",
+	},
+	{
+		label: "批量删除",
+		icon: "solar:trash-bin-trash-bold-duotone",
+		variant: "destructive",
+	},
+];
+
+const createFeatureTableRows = (definition: FeatureDefinition): PortalFeatureTableRow[] => {
+	return Array.from({ length: 4 }).map((_, index) => {
+		const status = STATUS_SEQUENCE[index % STATUS_SEQUENCE.length];
+		const usage = `${USAGE_TEMPLATES[index % USAGE_TEMPLATES.length]} · ${definition.topic}`;
+		const owner = RESPONSIBLE_UNITS[index % RESPONSIBLE_UNITS.length];
+		const updatedAt = UPDATE_DATES[index % UPDATE_DATES.length];
+		return {
+			id: `${definition.key}-row-${index + 1}`,
+			values: {
+				name: `${definition.topic}${index + 1}号方案`,
+				owner,
+				stage: status.label,
+				updatedAt,
+				usage,
+			},
+			badges: { stage: status.variant },
+			actions: defaultRowActions.map((action) => ({ ...action })),
+		} satisfies PortalFeatureTableRow;
+	});
+};
+
+const createFeatureTables = (definition: FeatureDefinition): PortalFeatureTable[] => [
+	{
+		id: `${definition.key}-registry`,
+		title: `${definition.title}列表`,
+		description: `掌握${definition.topic}的推进状态、责任人及典型应用场景。`,
+		columns: [
+			{ key: "name", label: `${definition.topic}名称` },
+			{ key: "owner", label: "责任部门" },
+			{ key: "stage", label: "状态", format: "badge" },
+			{ key: "updatedAt", label: "最近更新", format: "date", align: "right" },
+			{ key: "usage", label: "应用场景" },
+		],
+		rows: createFeatureTableRows(definition),
+		actions: [
+			{ label: "刷新数据", icon: "solar:refresh-line-duotone", variant: "secondary" },
+			{ label: "配置列显示", icon: "solar:setting-bold-duotone", variant: "outline" },
+		],
+	},
+];
+
 interface FeatureDefinition {
 	key: string;
 	title: string;
@@ -202,6 +304,8 @@ interface FeatureDefinition {
 	processTopic?: string;
 	workstreamTopic?: string;
 	risks?: PortalRisk[];
+	operations?: PortalFeatureOperation[];
+	tables?: PortalFeatureTable[];
 }
 
 const createSection = (sectionKey: string, definitions: FeatureDefinition[]): Record<string, PortalFeatureContent> => {
@@ -230,6 +334,8 @@ const createSection = (sectionKey: string, definitions: FeatureDefinition[]): Re
 			pipelines: createProcesses(processTopic),
 			quickWins: createQuickWins(quickTopic),
 			insights: createInsights(insightTopic),
+			operations: definition.operations ?? createFeatureOperations(definition),
+			tables: definition.tables ?? createFeatureTables(definition),
 			...(definition.risks ? { risks: definition.risks } : {}),
 		};
 		return acc;

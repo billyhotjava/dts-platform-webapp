@@ -11,7 +11,6 @@ export const frontendNavData: NavProps["data"] = PORTAL_NAV_SECTIONS.map((sectio
 			children: section.children.map((child) => ({
 				title: child.titleKey,
 				path: `/${section.path}/${child.path}`,
-				...(child.descriptionKey ? { caption: child.descriptionKey } : {}),
 			})),
 		},
 	],

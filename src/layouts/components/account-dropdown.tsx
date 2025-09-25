@@ -48,20 +48,8 @@ export default function AccountDropdown() {
 						<div className="text-text-secondary text-xs">{email}</div>
 					</div>
 				</div>
-				<DropdownMenuSeparator />
-				<DropdownMenuItem asChild>
-					<NavLink to="https://docs-admin.slashspaces.com/" target="_blank">
-						{t("sys.docs")}
-					</NavLink>
-				</DropdownMenuItem>
 				<DropdownMenuItem asChild>
 					<NavLink to="/settings/preferences">{t("sys.nav.portal.settingsPreferences")}</NavLink>
-				</DropdownMenuItem>
-				<DropdownMenuItem asChild>
-					<NavLink to="/settings/notifications">{t("sys.nav.portal.settingsNotifications")}</NavLink>
-				</DropdownMenuItem>
-				<DropdownMenuItem asChild>
-					<NavLink to="/settings/gateway">{t("sys.nav.portal.settingsGateway")}</NavLink>
 				</DropdownMenuItem>
 				<DropdownMenuSeparator />
 				<DropdownMenuItem className="font-bold text-warning" onClick={logout}>

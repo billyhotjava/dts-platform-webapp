@@ -45,7 +45,7 @@ export function NavVerticalLayout({ data, className }: Props) {
 				<div className="flex items-center justify-center">
 					<Logo />
 					<span
-						className="text-xl font-bold transition-all duration-300 ease-in-out"
+						className="inline-flex items-center gap-2 text-xl font-bold transition-all duration-300 ease-in-out"
 						style={{
 							opacity: themeLayout === ThemeLayout.Mini ? 0 : 1,
 							maxWidth: themeLayout === ThemeLayout.Mini ? 0 : "auto",
@@ -53,6 +53,9 @@ export function NavVerticalLayout({ data, className }: Props) {
 							marginLeft: themeLayout === ThemeLayout.Mini ? 0 : "8px",
 						}}
 					>
+						<span aria-hidden className="text-red-500">
+							★
+						</span>
 						{GLOBAL_CONFIG.appName}
 					</span>
 				</div>

@@ -18,7 +18,12 @@ export function NavMobileLayout({ data }: NavProps) {
 			<SheetContent side="left" className="[&>button]:hidden px-2 w-[280px]">
 				<div className="flex gap-2 px-2 h-[var(--layout-header-height)] items-center">
 					<Logo />
-					<span className="text-xl font-bold">{GLOBAL_CONFIG.appName}</span>
+					<span className="inline-flex items-center gap-2 text-xl font-bold">
+						<span aria-hidden className="text-red-500">
+							★
+						</span>
+						{GLOBAL_CONFIG.appName}
+					</span>
 				</div>
 				<ScrollArea className="h-full">
 					<NavVertical data={data} />

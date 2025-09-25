@@ -1,19 +1,33 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-The Vite-powered admin console lives under `src`, with `main.tsx` bootstrapping routes declared in `src/routes` and page-level views inside `src/pages`. Feature domains sit in `src/admin`, while cross-cutting pieces are shared from `src/components`, `src/hooks`, `src/store` (Zustand state), and `src/utils`. Mock data and MSW handlers reside in `src/_mock`, and theme primitives live in `src/theme`. Static assets that must be processed by Vite belong in `src/assets`; files served verbatim go in `public`. Build artefacts are emitted to `dist/`.
+- `src/main.tsx` mounts the Vite app and pulls page routes from `src/routes`; views stay under `src/pages`.
+- Domain-specific admin features belong in `src/admin`; shared UI and logic live in `src/components`, `src/hooks`, `src/store` (Zustand), and `src/utils`.
+- Use `src/_mock` for MSW handlers and fixtures, `src/theme` and `tailwind.config.ts` for design tokens, and keep processed assets in `src/assets` while static files stay in `public/`.
+- Centralize runtime defaults in `src/global-config.ts`; avoid scattering environment fallbacks elsewhere.
 
 ## Build, Test, and Development Commands
-Install dependencies with `pnpm install` (Node 20.x). Use `pnpm dev` to launch the Vite dev server for local iteration. `pnpm build` performs a type check (`tsc --noEmit`) and produces a production bundle. Inspect that bundle with `pnpm preview`, which serves the `dist` output locally. Lefthook installs automatically via `pnpm install`; run `pnpm exec lefthook run pre-commit` to rehearse the hook locally.
+- `pnpm install` installs dependencies (Node 20.x required).
+- `pnpm dev` launches the Vite dev server with hot reload.
+- `pnpm build` runs `tsc --noEmit` plus the production bundle, ensuring type safety and output in `dist/`.
+- `pnpm preview` serves the built bundle locally for QA checks.
+- `pnpm exec lefthook run pre-commit` reproduces the formatting and lint checks enforced by git hooks.
 
 ## Coding Style & Naming Conventions
-TypeScript and React components follow Biome formatting enforced by the pre-commit hook; do not hand-format. Prefer PascalCase for component files (`UserCard.tsx`), camelCase for functions and hooks (`useUserPermissions`), and SCREAMING_SNAKE_CASE for exported constants. Keep module boundaries clear (pages import from `src/components` instead of deep feature paths). Tailwind utility classes may be combined, but extract shared styles into `src/theme` or `clsx` helpers when repeated.
+- Formatting is handled by Biome; do not hand-format or bypass lefthook.
+- Favor PascalCase React components (`UserCard.tsx`), camelCase utilities (`useUserPermissions`), and SCREAMING_SNAKE_CASE for exported constants.
+- Compose UIs with Tailwind utility classes; extract repeated patterns into shared helpers or theme tokens.
 
 ## Testing Guidelines
-There is no dedicated test runner yet; rely on `pnpm build` to surface TypeScript regressions. When adding automated coverage, colocate specs as `*.test.ts` or `*.test.tsx` beside the unit under test, prefer msw for network mocking, and keep fixtures in `src/_mock`. Document manual verification steps in the pull request until automated alternatives are available.
+- Treat `pnpm build` as the baseline regression gate; add colocated specs as `*.test.ts(x)` when logic warrants automation.
+- Mock network traffic through MSW handlers in `src/_mock`; keep fixtures adjacent to the consuming feature.
+- Document any manual verification steps in PRs until automated coverage expands.
 
 ## Commit & Pull Request Guidelines
-Follow Conventional Commit syntax that matches existing history (`feat:`, `fix:`, `chore:`). Keep messages imperative and concise, describing the user-facing impact first. Pull requests should link to the relevant issue, summarize risk, list verification commands (e.g., `pnpm build`), and include screenshots or GIFs for UI updates. Ensure the branch passes local hooks before requesting review.
+- Use Conventional Commits (`feat:`, `fix:`, `chore:`) with imperative, user-focused summaries.
+- PRs should link a relevant issue, outline risk, list verification commands (e.g., `pnpm build`), and attach UI screenshots or GIFs when visuals change.
+- Ensure lefthook passes before review and limit scope to the touched feature.
 
-## Tooling & Configuration Notes
-Biome settings live in `biome.json`; update that file instead of editor-specific configs. Environment and API defaults are centralised in `src/global-config.ts`—avoid scattering duplicates. Shared Tailwind tokens are defined via `tailwind.config.ts`; extend via the config rather than inlining arbitrary values.
+## Security & Configuration Tips
+- Check secrets and API endpoints into environment files, not source; reference them via `import.meta.env`.
+- Update shared defaults through `src/global-config.ts` so agents stay aligned across environments.

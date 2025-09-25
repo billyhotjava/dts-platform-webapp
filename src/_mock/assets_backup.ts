@@ -17,7 +17,7 @@ export const DB_MENU: Menu[] = [
 		icon: "local:ic-workbench",
 		type: MENU,
 		path: "/workbench",
-		component: "/pages/dashboard/workbench",
+		component: "/pages/common/EmptyPage",
 	},
 	{
 		id: "data_security",
@@ -27,7 +27,7 @@ export const DB_MENU: Menu[] = [
 		icon: "solar:shield-keyhole-bold",
 		type: MENU,
 		path: "/security/assets",
-		component: "/pages/security/data-security",
+		component: "/pages/common/EmptyPage",
 	},
 
 	// group_pages
@@ -56,7 +56,7 @@ export const DB_MENU: Menu[] = [
 		code: "management:user:profile",
 		type: MENU,
 		path: "management/user/profile",
-		component: "/pages/management/user/profile",
+		component: "/pages/common/EmptyPage",
 	},
 	{
 		id: "management_user_account",
@@ -65,7 +65,7 @@ export const DB_MENU: Menu[] = [
 		code: "management:user:account",
 		type: MENU,
 		path: "management/user/account",
-		component: "/pages/management/user/account",
+		component: "/pages/common/EmptyPage",
 	},
 	{
 		id: "management_system",
@@ -82,7 +82,7 @@ export const DB_MENU: Menu[] = [
 		code: "management:system:user",
 		type: MENU,
 		path: "/management/system/user",
-		component: "/pages/management/system/user",
+		component: "/pages/common/EmptyPage",
 	},
 	{
 		id: "management_system_role",
@@ -91,7 +91,7 @@ export const DB_MENU: Menu[] = [
 		code: "management:system:role",
 		type: MENU,
 		path: "/management/system/role",
-		component: "/pages/management/system/role",
+		component: "/pages/common/EmptyPage",
 	},
 	{
 		id: "management_system_group",
@@ -100,7 +100,7 @@ export const DB_MENU: Menu[] = [
 		code: "management:system:group",
 		type: MENU,
 		path: "/management/system/group",
-		component: "/pages/management/system/group",
+		component: "/pages/common/EmptyPage",
 	},
 	{
 		id: "management_system_permission",
@@ -109,7 +109,7 @@ export const DB_MENU: Menu[] = [
 		code: "management:system:permission",
 		type: MENU,
 		path: "/management/system/permission",
-		component: "/pages/management/system/permission",
+		component: "/pages/common/EmptyPage",
 	},
 	{
 		id: "management_system_approval",
@@ -118,7 +118,7 @@ export const DB_MENU: Menu[] = [
 		code: "management:system:approval",
 		type: MENU,
 		path: "/management/system/approval",
-		component: "/pages/management/system/approval",
+		component: "/pages/common/EmptyPage",
 	},
 	// 添加审计日志菜单项
 	{
@@ -128,7 +128,7 @@ export const DB_MENU: Menu[] = [
 		code: "management:system:audit_log",
 		type: MENU,
 		path: "/management/system/audit-log",
-		component: "/pages/management/system/audit-log/index",
+		component: "/pages/common/EmptyPage",
 	},
 ];
 

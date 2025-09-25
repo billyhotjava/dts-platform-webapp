@@ -60,14 +60,14 @@ const portalMenus: PortalMenuItem[] = [
 		id: 1,
 		name: "数据总览",
 		path: "/portal/overview",
-		component: "/pages/portal/overview",
+		component: "/pages/common/EmptyPage",
 		sortOrder: 1,
 		children: [
 			{
 				id: 11,
 				name: "看板",
 				path: "/portal/overview/dashboard",
-				component: "/pages/portal/overview/dashboard",
+				component: "/pages/common/EmptyPage",
 				sortOrder: 1,
 			},
 		],
@@ -76,7 +76,7 @@ const portalMenus: PortalMenuItem[] = [
 		id: 2,
 		name: "数据接入",
 		path: "/portal/ingestion",
-		component: "/pages/portal/ingestion",
+		component: "/pages/common/EmptyPage",
 		sortOrder: 2,
 	},
 ];

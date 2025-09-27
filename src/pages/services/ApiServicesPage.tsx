@@ -172,7 +172,7 @@ export default function ApiServicesPage() {
 									<td className="px-3 py-2">
 										<Badge variant="outline">{it.method}</Badge>
 									</td>
-									<td className="px-3 py-2 font-mono text-[12px]">{it.path}</td>
+									<td className="px-3 py-2 font-mono text-xs">{it.path}</td>
 									<td className="px-3 py-2">
 										<LevelBadge level={it.classification} />
 									</td>

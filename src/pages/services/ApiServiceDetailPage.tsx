@@ -187,7 +187,7 @@ export default function ApiServiceDetailPage() {
 									</div>
 									<div>列掩码：{detail.policy.maskedColumns.join("、") || "-"}</div>
 									<div>
-										行过滤：<span className="font-mono text-[12px]">{detail.policy.rowFilter}</span>
+										行过滤：<span className="font-mono text-xs">{detail.policy.rowFilter}</span>
 									</div>
 								</CardContent>
 							</Card>

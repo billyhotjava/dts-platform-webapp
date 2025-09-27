@@ -68,7 +68,7 @@ export default function Toast() {
 const ToasterStyleWrapper = styled.div`
   [data-sonner-toast] {
     font-weight: 600;
-    font-size: 14px;
+    font-size: 0.875rem;
 
     [data-cancel] {
       color: ${themeVars.colors.text.primary};

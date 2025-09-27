@@ -298,7 +298,7 @@ function DomainBadge({ level }: { level: SecurityLevel }) {
 					? "bg-sky-500/10 text-sky-500"
 					: "bg-emerald-500/10 text-emerald-600";
 	return (
-		<span className={clsx("inline-flex items-center rounded px-1.5 py-0.5 text-[10px] font-semibold", tone)}>
+		<span className={clsx("inline-flex items-center rounded px-1.5 py-0.5 text-xs font-semibold", tone)}>
 			{meta.label}
 		</span>
 	);

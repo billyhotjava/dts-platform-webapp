@@ -144,7 +144,7 @@ function RowConditionsTable({ data }: { data: DatasetPoliciesResponse["rowCondit
 									<span>{item.subjectName}</span>
 								</div>
 							</td>
-							<td className="px-3 py-2 font-mono text-[12px]">{item.expression}</td>
+							<td className="px-3 py-2 font-mono text-xs">{item.expression}</td>
 							<td className="px-3 py-2 text-xs text-muted-foreground">{item.description || "-"}</td>
 						</tr>
 					))}
@@ -511,7 +511,7 @@ export default function AuthorizationPage() {
 											{subjectVisible.expressions.map((e, idx) => (
 												<li key={idx} className="mb-1">
 													<span className="font-medium mr-2">{e.datasetName}</span>
-													<span className="font-mono text-[12px]">{e.expression}</span>
+													<span className="font-mono text-xs">{e.expression}</span>
 												</li>
 											))}
 										</ul>

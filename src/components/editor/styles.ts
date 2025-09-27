@@ -4,32 +4,32 @@ import { rgbAlpha } from "@/utils/theme";
 
 const StyledEditor = styled.div`
   h1 {
-    font-size: 64px;
+    font-size: 4rem;
     line-height: 1.25;
     font-weight: 800;
   }
   h2 {
-    font-size: 56px;
+    font-size: 3.5rem;
     line-height: 1.25;
     font-weight: 800;
   }
   h3 {
-    font-size: 48px;
+    font-size: 3rem;
     line-height: 1.25;
     font-weight: 700;
   }
   h4 {
-    font-size: 40px;
+    font-size: 2.5rem;
     line-height: 1.25;
     font-weight: 700;
   }
   h5 {
-    font-size: 32px;
+    font-size: 2rem;
     line-height: 1.25;
     font-weight: 700;
   }
   h6 {
-    font-size: 24px;
+    font-size: 1.5rem;
     line-height: 1.25;
     font-weight: 600;
   }

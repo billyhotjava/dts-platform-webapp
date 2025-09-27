@@ -80,7 +80,7 @@ export const StyledCalendar = styled.div<{ $themeMode: ThemeMode }>`
             transition: opacity 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
           }
           .fc-event-main-frame {
-            font-size: 13px;
+            font-size: 0.8125rem;
             line-height: 20px;
             filter: brightness(0.48);
             display: flex;

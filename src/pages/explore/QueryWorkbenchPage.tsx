@@ -195,7 +195,7 @@ function createDefaultVisualState(dataset?: Dataset): VisualQueryState {
 function classificationBadge(level: Classification) {
 	const meta = CLASSIFICATION_META[level];
 	return (
-		<span className={`inline-flex items-center rounded px-1.5 py-0.5 text-[10px] font-semibold ${meta.tone}`}>
+		<span className={`inline-flex items-center rounded px-1.5 py-0.5 text-xs font-semibold ${meta.tone}`}>
 			{meta.label}
 		</span>
 	);

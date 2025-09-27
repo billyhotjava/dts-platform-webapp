@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { HtmlDataAttribute } from "#/enum";
 import { useSettings } from "@/store/settingStore";
 import type { UILibraryAdapter } from "./type";
+import { typographyTokens } from "./tokens/typography";
 
 interface ThemeProviderProps {
 	children: React.ReactNode;
@@ -26,7 +27,15 @@ export function ThemeProvider({ children, adapters = [] }: ThemeProviderProps) {
 	// Update font size and font family
 	useEffect(() => {
 		const root = window.document.documentElement;
-		root.style.fontSize = `${fontSize}px`;
+		// Clear any old inline font-size to let CSS control it
+		root.style.removeProperty("font-size");
+
+		// Derive a scale factor for CSS var --app-font-scale
+		const base = 16; // browser default
+		const defaultStored = Number(typographyTokens.fontSize.sm); // legacy default (14)
+		// Reduce ~10% from previous 1.1 baseline -> 0.99
+		const scale = fontSize === defaultStored ? 0.99 : fontSize / base;
+		root.style.setProperty("--app-font-scale", String(scale));
 
 		const body = window.document.body;
 		body.style.fontFamily = fontFamily;

@@ -23,8 +23,38 @@
 		border-color: rgba(var(--colors-palette-gray-500Channel) / var(--opacity-border));
 	}
 
+	html {
+		/* Base font scale: reduced ~10% from previous (0.99) */
+		font-size: calc(100% * var(--app-font-scale, 0.99));
+	}
+
 	body {
 		background-color: var(--background);
+	}
+
+	/* Normalize content area typography (exclude header/nav/tabs) */
+	main[data-slot="slash-layout-main"] {
+		/* Ensure a consistent default text size across pages */
+		font-size: 0.875rem;
+		line-height: 1.57143;
+	}
+	main[data-slot="slash-layout-main"] :is(p, li, span, label, td, th, input, select, textarea, button) {
+		font-size: inherit;
+	}
+}
+
+/* Utilities overrides to strictly unify content typography */
+@layer utilities {
+	/* In content area, map text-xs to text-sm unless explicitly allowed */
+	main[data-slot="slash-layout-main"] .text-xs:not(.allow-xs):not([data-allow-xs="true"]) {
+		font-size: 0.875rem;
+		line-height: 1.25rem;
+	}
+
+	/* Escape hatch: force extra small when needed */
+	.text-xs-force {
+		font-size: 0.75rem !important;
+		line-height: 1rem !important;
 	}
 }
 

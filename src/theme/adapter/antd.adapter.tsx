@@ -6,6 +6,7 @@ import useLocale from "@/locales/use-locale";
 import { useSettings } from "@/store/settingStore";
 import { removePx } from "@/utils/theme";
 import { baseThemeTokens } from "../tokens/base";
+import { typographyTokens } from "../tokens/typography";
 import { darkColorTokens, lightColorTokens, presetsColors } from "../tokens/color";
 import type { UILibraryAdapter } from "../type";
 
@@ -31,7 +32,8 @@ export const AntdAdapter: UILibraryAdapter = ({ mode, children }) => {
 
 		wireframe: false,
 		fontFamily: fontFamily,
-		fontSize: fontSize,
+		// Align with global 0.99 scale when using legacy default 14
+		fontSize: fontSize === Number(typographyTokens.fontSize.sm) ? Math.round(16 * 0.99) : fontSize,
 
 		borderRadiusSM: removePx(baseThemeTokens.borderRadius.sm),
 		borderRadius: removePx(baseThemeTokens.borderRadius.default),

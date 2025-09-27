@@ -125,7 +125,7 @@ const Container = styled.div<{ $isDragging: boolean }>`
 	padding: 16px;
 	margin-bottom: 16px;
 	font-weight: 400;
-	font-size: 12px;
+	font-size: 0.75rem;
 	background-color: ${themeVars.colors.background.default};
 	backdrop-filter: ${(props) => (props.$isDragging ? "blur(6px)" : "")};
 

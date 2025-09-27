@@ -17,6 +17,8 @@ export type GlobalConfig = {
 	apiBaseUrl: string;
 	/** Routing mode: frontend routing or backend routing */
 	routerMode: "frontend" | "backend";
+	/** History strategy: browser (HTML5) or hash (#) */
+	routerHistory: "browser" | "hash";
 };
 
 /**
@@ -99,4 +101,5 @@ export const GLOBAL_CONFIG: GlobalConfig = {
 	publicPath: resolvePublicPath(),
 	apiBaseUrl: resolveApiBaseUrl(),
 	routerMode: import.meta.env.VITE_APP_ROUTER_MODE || "frontend",
+	routerHistory: (import.meta.env.VITE_APP_ROUTER_HISTORY || "browser") as "browser" | "hash",
 };

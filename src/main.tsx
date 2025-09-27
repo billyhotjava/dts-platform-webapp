@@ -2,7 +2,7 @@ import "./global.css";
 import "./theme/theme.css";
 import "./locales/i18n";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router";
+import { createBrowserRouter, createHashRouter, Outlet, RouterProvider } from "react-router";
 import { worker } from "./_mock";
 import App from "./App";
 import menuService from "./api/services/menuService";
@@ -27,7 +27,8 @@ if (GLOBAL_CONFIG.routerMode === "backend") {
 	await menuService.getMenuList();
 }
 
-const router = createBrowserRouter(
+const makeRouter = GLOBAL_CONFIG.routerHistory === "hash" ? createHashRouter : createBrowserRouter;
+const router = makeRouter(
 	[
 		{
 			Component: () => (

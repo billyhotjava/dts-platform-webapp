@@ -19,6 +19,8 @@ import FeaturePlaceholder from "@/pages/common/FeaturePlaceholder";
 const FEATURE_COMPONENTS: Record<string, Record<string, () => ReactElement>> = {
 	catalog: {
 		domains: () => <DataDomainManagementPage />,
+		masking: () => <MaskingPoliciesPage />,
+		classificationMapping: () => <ClassificationMappingPage />,
 	},
 	modeling: {
 		standards: () => <DataStandardsPage />,
